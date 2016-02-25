@@ -105,18 +105,7 @@ def button(msg,x,y,w,h,ic,ac, action=None):
     textRect.center = ( (x+(w/2)), (y+(h/2)) )
     gameDisplay.blit(textSurf, textRect)
 
-def button2(msg,x,y,w,h,ac):
-    mouse = pygame.mouse.get_pos()
-    pygame.draw.rect(gameDisplay, ac, (374, 60, 168, 48))#BUTTON 3
-
-    smallText = pygame.font.Font("freesansbold.ttf", 20)
-    textSurf, textRect = text_objects("Xbox One", smallText) #TEXT FOR BUTTON
-    textRect.center = ((x+w/2)),(y+(h/2))
-    gameDisplay.blit(textSurf, textRect)
-
-        
-
-#Game Intro Loop
+# #Game Intro Loop
 def game_intro():
 
     intro = True
@@ -139,6 +128,34 @@ def game_intro():
 
         clock.tick(80) #Setting the fps
 
+def button2(msg,x,y,w,h,ic,ac, action=None):
+
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+
+    if x+w > mouse[0] > x and y+h > mouse[1] > y:
+        pygame.draw.rect(gameDisplay, ac, (x,y,w,h))
+
+        if click[0] == 1 and action != None:
+            if action == "START":
+                game_loop()
+            elif action == "BACK":
+                game_intro()
+                quit()
+            elif action == "Options":
+                game_options()
+            elif action == "Intro":
+                print("hello")
+
+    else:
+        pygame.draw.rect(gameDisplay, ic, (x,y,w,h))
+
+    smallText = pygame.font.Font("freesansbold.ttf", 20)
+    textSurf, textRect = text_objects(msg, smallText)
+    textRect.center = ( (x+(w/2)), (y+(h/2)) )
+    gameDisplay.blit(textSurf, textRect)
+
+#Selection Screen
 def game_select_items_menu():
 
     mouse = pygame.mouse.get_pos()
@@ -153,7 +170,7 @@ def game_select_items_menu():
 
         blank_image(x, y)
 
-        button("Xbox One", 374, 60, 168, 48, white, orange) #XBOX ONE - BUTTON (TOP ROW)
+        button2("Xbox One", 374, 60, 168, 48, white, orange) #XBOX ONE - BUTTON (TOP ROW)
 
         button("Playstation 4", 200, 60, 168, 48, white, orange)#PLAYSTATION 4 - BUTTON (TOP ROW)
 
@@ -173,9 +190,9 @@ def game_select_items_menu():
 
        #Bottom buttons(Start,Back)
 
-        button("START", 374, 370, 163, 48, green, green_bright)#START - BUTTON (BOTTOM)
+        button2("START", 374, 370, 163, 48, green, green_bright, "START")#START - BUTTON (BOTTOM)
 
-        button("BACK", 374, 430, 163, 48, green, green_bright)#BACK - BUTTON (BOTTOM)
+        button2("BACK", 374, 430, 163, 48, green, green_bright, "BACK")#BACK - BUTTON (BOTTOM)
 
         pygame.display.update()
 
