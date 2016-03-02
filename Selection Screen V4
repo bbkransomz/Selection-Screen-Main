@@ -1,0 +1,81 @@
+global clickedButtons
+clickedButtons=[]
+
+def button2(msg,x,y,w,h,ic,ac, action=None):
+    global clickedButtons
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+
+
+    if x+w > mouse[0] > x and y+h > mouse[1] > y:
+        pygame.draw.rect(gameDisplay, ac, (x,y,w,h))
+
+        if click[0] == 1 and action != None:
+            if not (msg in clickedButtons):
+                #Save that this button has been clicked
+                clickedButtons.append(msg)
+            if action == "START":
+                game_loop()
+            elif action == "BACK":
+                game_intro()
+                quit()
+
+            elif action == "Playstation 4":
+                print("")
+    else:
+        #Check if this button has been clicked
+        if (msg in clickedButtons):
+            pygame.draw.rect(gameDisplay, ac, (x,y,w,h))
+        else:
+            pygame.draw.rect(gameDisplay, ic, (x,y,w,h))
+
+    smallText = pygame.font.Font("freesansbold.ttf", 20)
+    textSurf, textRect = text_objects(msg, smallText)
+    textRect.center = ( (x+(w/2)), (y+(h/2)) )
+    gameDisplay.blit(textSurf, textRect)
+
+#Selection Screen
+def game_select_items_menu():
+
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+
+    gameSelectItems = False
+    while not gameSelectItems:
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+        blank_image(x, y)
+
+        button2("Xbox One", 374, 60, 168, 48, white, orange, "Xbox One") #XBOX ONE - BUTTON (TOP ROW)
+
+        button2("Playstation 4", 200, 60, 168, 48, white, orange, "Playstation 4")#PLAYSTATION 4 - BUTTON (TOP ROW)
+
+        button2("Kettle", 30, 60, 163, 48, white, orange, "Kettle")#Kettle - BUTTON (TOP ROW)
+
+        button2("Lewi Jeans", 374, 160, 168, 48, white, orange, "Lewi Jeans")#LEWI JEANS - BUTTON(SECOND ROW)
+
+        button2("MacBook", 200, 160, 168, 48, white, orange, "MackBook")#MACBOOK - BUTTON (SECOND ROW)
+
+        button2("Samsung TV", 30, 160, 163, 48, white, orange, "Samsung TV")#SAMSUNG TV - BUTTON (SECOND ROW)
+
+        button2("Nike Air Max", 374, 250, 168, 48, white, orange, "Nike Air Max")#NIKE AIR MAX - BUTTON (THIRD ROW)
+
+        button2("Tablet", 200, 250, 168, 48, white, orange, "Tablet")#TABLET - BUTTON (THIRD ROW)
+
+        button2("Perfume", 30, 250, 163, 48, white, orange, "Perfume")#PERFUME - BUTTON (THIRD ROW)
+
+        button2("", 30, 340, 300, 150, white,white)#Print Box
+
+       #Bottom buttons(Start,Back)
+
+        button2("START", 374, 370, 163, 48, green, green_bright, "START")#START - BUTTON (BOTTOM)
+
+        button2("BACK", 374, 430, 163, 48, green, green_bright, "BACK")#BACK - BUTTON (BOTTOM)
+
+        pygame.display.update()
+
+        clock.tick(80) #Setting the fps
