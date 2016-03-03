@@ -1,0 +1,110 @@
+global clickedButtons,sumOfCosts,textDisp
+clickedButtons=[]
+sumOfCosts=[0,0]
+textDisp = None
+
+def addCostsAndDisplay(msg,cost,weight):    #Add up the cost and the weight of item
+    global sumOfCosts
+    sumOfCosts[0]+=cost
+    sumOfCosts[1]+=weight
+
+    basicfont = pygame.font.SysFont(None, 27)
+    text = basicfont.render('adding '+str(msg)+' adds up to '+str(sumOfCosts[0])+' and weighs '+str(sumOfCosts[1]), True, (255, 0, 0), (255, 255, 255))
+    return text
+
+def button2(msg,x,y,w,h,ic,ac,cost=1,weight=1, action=None):
+    global clickedButtons,textDisp
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+
+    #Button Function
+    if x+w > mouse[0] > x and y+h > mouse[1] > y:
+        pygame.draw.rect(gameDisplay, ac, (x,y,w,h))
+
+        if click[0] == 1 and action != None:
+            if not (msg in clickedButtons):
+                #Save that this button has been clicked
+                clickedButtons.append(msg)
+                textDisp=addCostsAndDisplay(msg,cost,weight)
+            if action == "START":
+                game_loop()
+            elif action == "BACK":
+                game_intro()
+                quit()
+
+            elif action == "Playstation 4":
+                print("")
+    else:
+        #Check if this button has been clicked
+        if (msg in clickedButtons):
+            pygame.draw.rect(gameDisplay, ac, (x,y,w,h))
+        else:
+            pygame.draw.rect(gameDisplay, ic, (x,y,w,h))
+
+#Text Font and Text Position
+    smallText = pygame.font.Font("freesansbold.ttf", 20)
+    textSurf, textRect = text_objects(msg, smallText)
+    textRect.center = ( (x+(w/2)), (y+(h/2)) )
+    gameDisplay.blit(textSurf, textRect)
+
+#Selection Screen
+def game_select_items_menu():
+    global textDisp
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+
+    gameSelectItems = False
+    while not gameSelectItems:
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+        blank_image(x, y)
+        if (not textDisp is None):
+
+        #Change these lines to change the coordinates of the text that displays the cost and weight.
+            screen=pygame.display.get_surface()
+            textRect=textDisp.get_rect()
+            textRect.center = ((30+500/2)),(150+(350/2))
+            screen.blit(textDisp ,textRect)
+
+#Button Attribuetes, changes button colour position and price and weight of the item
+               #Text        # Button Postion  #Button Colour #Price/Weight
+        button2("Xbox One", 374, 60, 168, 48, white, orange, 310, 32, "Xbox One")   #XBOX ONE - BUTTON (TOP ROW)
+               
+               #Text        # Button Postion  #Button Colour #Price/Weight
+        button2("Playstation 4", 200, 60, 168, 48, white, orange, 290, 29, "Playstation 4") #PLAYSTATION 4 - BUTTON (TOP ROW)
+              
+               #Text        # Button Postion  #Button Colour #Price/Weight
+        button2("Kettle", 30, 60, 163, 48, white, orange, 70, 10, "Kettle") #Kettle - BUTTON (TOP ROW)
+               
+               #Text        # Button Postion  #Button Colour #Price/Weight
+        button2("Lewi Jeans", 374, 160, 168, 48, white, orange, 170, 20, "Lewi Jeans") #LEWI JEANS - BUTTON(SECOND ROW)
+               
+               #Text        # Button Postion  #Button Colour #Price/Weight
+        button2("MacBook", 200, 160, 168, 48, white, orange, 689, 92, "MackBook") #MACBOOK - BUTTON (SECOND ROW)
+               
+               #Text        # Button Postion  #Button Colour #Price/Weight
+        button2("Samsung TV", 30, 160, 163, 48, white, orange, 399, 41, "Samsung TV")  #SAMSUNG TV - BUTTON (SECOND ROW)
+               
+               #Text        # Button Postion  #Button Colour #Price/Weight
+        button2("Nike Air Max", 374, 250, 168, 48, white, orange, 90, 10, "Nike Air Max") #NIKE AIR MAX - BUTTON (THIRD ROW)
+               
+               #Text        # Button Postion  #Button Colour #Price/Weight
+        button2("Apple iPad", 200, 250, 168, 48, white, orange, 189, 30, "Apple iPad") #TABLET - BUTTON (THIRD ROW)
+              
+              #Text        # Button Postion  #Button Colour #Price/Weight
+        button2("Perfume", 30, 250, 163, 48, white,orange, 45, 65, "Perfume") #PERFUME - BUTTON (THIRD ROW)
+              
+
+       #Bottom buttons(Start and Back Button)
+
+        button2("START", 374, 370, 163, 48,green, green_bright,0,0,  "START")#START - BUTTON (BOTTOM)
+
+        button2("BACK", 374, 430, 163, 48, green, green_bright,0,0,  "BACK")#BACK - BUTTON (BOTTOM)
+
+        pygame.display.update()
+
+        clock.tick(80) #Setting the fps# Selection Screen
