@@ -1,17 +1,19 @@
 global clickedButtons,sumOfCosts,textDisp
 clickedButtons=[]
-sumOfCosts=[0,0]
-textDisp = None
+sumOfCosts=[0,0] 
+textDisp = None 
 
 def addCostsAndDisplay(msg,cost,weight):    #Add up the cost and the weight of item
     global sumOfCosts
     sumOfCosts[0]+=cost
     sumOfCosts[1]+=weight
 
-    basicfont = pygame.font.SysFont(None, 27)
+    basicfont = pygame.font.SysFont(None, 27) #This line here is basically to set the font of the cost of the item and the weight of it. 
+    
     text = basicfont.render('adding '+str(msg)+' adds up to '+str(sumOfCosts[0])+' and weighs '+str(sumOfCosts[1]), True, (255, 0, 0), (255, 255, 255))
     return text
-
+    # Lets you add text when the items have been added up 
+    
 def button2(msg,x,y,w,h,ic,ac,cost=1,weight=1, action=None):
     global clickedButtons,textDisp
     mouse = pygame.mouse.get_pos()
@@ -21,7 +23,7 @@ def button2(msg,x,y,w,h,ic,ac,cost=1,weight=1, action=None):
     if x+w > mouse[0] > x and y+h > mouse[1] > y:
         pygame.draw.rect(gameDisplay, ac, (x,y,w,h))
 
-        if click[0] == 1 and action != None:
+        if click[0] == 1 and action != None:                     
             if not (msg in clickedButtons):
                 #Save that this button has been clicked
                 clickedButtons.append(msg)
